@@ -6,11 +6,13 @@ namespace Soulgram.Posts.Application.Commands.Like
 {
 	public class AddLikeCommand : IRequest
 	{
-		public AddLikeCommand(string userId)
+		public AddLikeCommand(string userId, string postId)
 		{
 			UserId = userId;
+			PostId = postId;
 		}
 		public string UserId { get; }
+		public string PostId { get; }
 
 
 		internal class Handler : IRequestHandler<AddLikeCommand>

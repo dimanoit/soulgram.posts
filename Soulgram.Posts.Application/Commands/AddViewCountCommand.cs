@@ -6,11 +6,13 @@ namespace Soulgram.Posts.Application.Commands
 {
 	public class AddViewCountCommand : IRequest
 	{
-		public AddViewCountCommand(string userId)
+		public AddViewCountCommand(string userId, string postId)
 		{
 			UserId = userId;
+			PostId = postId;
 		}
 		public string UserId { get; }
+		public string PostId { get; }
 
 
 		internal class Handler : IRequestHandler<AddViewCountCommand>

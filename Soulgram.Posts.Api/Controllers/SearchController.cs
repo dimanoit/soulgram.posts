@@ -1,15 +1,16 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Soulgram.Posts.Application.Models;
+using Soulgram.Posts.Application.Models.Requests;
+using Soulgram.Posts.Application.Models.Responses;
 using Soulgram.Posts.Application.Queries;
 using System.Threading;
 using System.Threading.Tasks;
-using Soulgram.Posts.Application.Models.Requests;
-using Soulgram.Posts.Application.Models.Responses;
 
 namespace Soulgram.Posts.Api.Controllers
 {
 	[Route("api/[controller]")]
+	[Authorize]
 	public class SearchController : ControllerBase
 	{
 		private readonly IMediator _mediator;
