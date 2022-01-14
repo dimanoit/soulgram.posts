@@ -17,7 +17,7 @@ namespace Soulgram.Posts.Api.Controllers
 			_mediator = mediator;
 		}
 
-		[HttpPatch("post/{postId}/views")]
+		[HttpPatch("{postId}")]
 		public async Task AddViews(string postId, string userId, CancellationToken cancellationToken) =>
 			await _mediator.Send(new AddViewCountCommand(userId: userId, postId: postId), cancellationToken);
 	}

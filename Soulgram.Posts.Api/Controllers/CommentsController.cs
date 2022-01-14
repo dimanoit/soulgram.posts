@@ -18,15 +18,15 @@ namespace Soulgram.Posts.Api.Controllers
 			_mediator = mediator;
 		}
 
-		[HttpPost("comment")]
+		[HttpPost]
 		public async Task AddComment(CommentPublicationRequest request, CancellationToken cancellationToken) =>
 			await _mediator.Send(new AddCommentCommand(request), cancellationToken);
 
-		[HttpPut("comment")]
+		[HttpPut]
 		public async Task EditComment(CommentPublicationRequest request, CancellationToken cancellationToken) =>
 			await _mediator.Send(new EditCommentCommand(request), cancellationToken);
 
-		[HttpDelete("comment")]
+		[HttpDelete]
 		public async Task DeleteComment(string commentId, CancellationToken cancellationToken) =>
 			await _mediator.Send(new DeleteCommentCommand(commentId), cancellationToken);
 	}
