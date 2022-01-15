@@ -41,7 +41,7 @@ namespace Soulgram.Posts.Api
                  .AddControllers(o => o.Filters.Add<ValidationFilter>())
                  .AddFluentValidation();
 
-            services.AddElasticContext();
+            services.AddElasticContext(Configuration);
             services.AddApplicationLayerDependencies();
 
             //services.AddSwaggerGen(c =>
