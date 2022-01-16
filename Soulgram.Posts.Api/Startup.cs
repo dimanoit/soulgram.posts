@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Soulgram.Posts.Api.Filters;
 using Soulgram.Posts.Application;
+using Soulgram.Posts.Infrastracture;
 using Soulgram.Posts.Persistence;
 
 namespace Soulgram.Posts.Api
@@ -42,12 +43,8 @@ namespace Soulgram.Posts.Api
                  .AddFluentValidation();
 
             services.AddElasticContext(Configuration);
+            services.AddInfrastructure();
             services.AddApplicationLayerDependencies();
-
-            //services.AddSwaggerGen(c =>
-            //{
-            //	c.SwaggerDoc("v1", new OpenApiInfo { Title = "Soulgram.Posts.Api", Version = "v1" });
-            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,8 +54,6 @@ namespace Soulgram.Posts.Api
             {
                 app.UseDeveloperExceptionPage();
                 IdentityModelEventSource.ShowPII = true;
-                //app.UseSwagger();
-                //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Soulgram.Posts.Api v1"));
             }
 
             app.UseHttpsRedirection();
