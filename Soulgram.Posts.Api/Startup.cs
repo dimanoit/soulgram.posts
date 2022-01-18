@@ -8,67 +8,65 @@ using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Soulgram.Posts.Api.Filters;
 using Soulgram.Posts.Application;
+using Soulgram.Posts.Infrastracture;
+using Soulgram.Posts.Persistence;
 
 namespace Soulgram.Posts.Api
 {
-	public class Startup
-	{
-		public Startup(IConfiguration configuration)
-		{
-			Configuration = configuration;
-		}
+    public class Startup
+    {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
 
-		public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; }
 
-		// This method gets called by the runtime. Use this method to add services to the container.
-		public void ConfigureServices(IServiceCollection services)
-		{
-			// TODO get all values from config, and policy for token validation
-			services.AddAuthentication("Bearer")
-				.AddJwtBearer("Bearer", config =>
-				{
-					config.Authority = "https://localhost:5002/";
-					config.RequireHttpsMetadata = false;
-					config.TokenValidationParameters = new TokenValidationParameters
-					{
-						ValidateAudience = false
-					};
-				});
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            //TODO get all values from config, and policy for token validation
 
-			services
-				.AddControllers(o => o.Filters.Add<ValidationFilter>())
-				.AddFluentValidation();
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", config =>
+                {
+                    config.Authority = "https://localhost:5002/";
+                    config.RequireHttpsMetadata = false;
+                    config.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = false
+                    };
+                });
+            //TODO add authorization by scope
+            services
+                 .AddControllers(o => o.Filters.Add<ValidationFilter>())
+                 .AddFluentValidation();
 
-			services.AddApplicationLayerDependencies();
+            services.AddElasticContext(Configuration);
+            services.AddInfrastructure();
+            services.AddApplicationLayerDependencies();
+        }
 
-			//services.AddSwaggerGen(c =>
-			//{
-			//	c.SwaggerDoc("v1", new OpenApiInfo { Title = "Soulgram.Posts.Api", Version = "v1" });
-			//});
-		}
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                IdentityModelEventSource.ShowPII = true;
+            }
 
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-		{
-			if (env.IsDevelopment())
-			{
-				app.UseDeveloperExceptionPage();
-				IdentityModelEventSource.ShowPII = true;
-				//app.UseSwagger();
-				//app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Soulgram.Posts.Api v1"));
-			}
+            app.UseHttpsRedirection();
 
-			app.UseHttpsRedirection();
+            app.UseRouting();
 
-			app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
-			app.UseAuthentication();
-			app.UseAuthorization();
-
-			app.UseEndpoints(endpoints =>
-			{
-				endpoints.MapControllers();
-			});
-		}
-	}
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+        }
+    }
 }

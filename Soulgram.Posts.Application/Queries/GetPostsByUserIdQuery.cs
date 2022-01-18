@@ -8,11 +8,11 @@ namespace Soulgram.Posts.Application.Queries
 {
 	public class GetPostsByUserIdQuery : IRequest<PostsByIdResponse>
 	{
-		public GetPostsByUserIdQuery(PostsByIdRequest request)
+		public GetPostsByUserIdQuery(PostsByUserIdRequest request)
 		{
 			Request = request;
 		}
-		public PostsByIdRequest Request { get; }
+		public PostsByUserIdRequest Request { get; }
 
 
 		internal class Handler : IRequestHandler<GetPostsByUserIdQuery, PostsByIdResponse>

@@ -13,6 +13,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Soulgram.Posts.Application\Soulgram.Posts.Application.csproj" />
+    <ProjectReference Include="..\Soulgram.Posts.Infrastracture\Soulgram.Posts.Infrastracture.csproj" />
+    <ProjectReference Include="..\Soulgram.Posts.Persistence\Soulgram.Posts.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

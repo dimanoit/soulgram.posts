@@ -1,9 +1,7 @@
-﻿using Soulgram.Posts.Application.Models.Common;
-
-namespace Soulgram.Posts.Application.Models.Requests
+﻿namespace Soulgram.Posts.Application.Models.Requests
 {
-	public record PostsByIdRequest : PageRequestBase
-	{
-		public string UserId { get; set; }
-	}
+    public record PostsByIdRequest
+    {
+        public string Id { get; init; }
+    }
 }

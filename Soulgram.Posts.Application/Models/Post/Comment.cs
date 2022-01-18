@@ -5,7 +5,6 @@ namespace Soulgram.Posts.Application.Models.Post
 {
 	public record Comment : BaseComment
 	{
-		public Media ImageProfileUrl { get; set; }
-		public IEnumerable<string> LikersIds { get; set; }
+		public IEnumerable<Like> Likes { get; set; }
 	}
 }
