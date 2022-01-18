@@ -14,8 +14,8 @@ namespace Soulgram.Posts.Infrastracture
             var mapperConfiguration =
                 new MapperConfiguration(cfg =>
                 {
-                    cfg.AddProfile<UserInfoDomainUserInfoProfile>();
-                    cfg.AddProfile<PostDomainPostProfile>();
+                    cfg.AddProfile<PostsProfile>();
+                    cfg.AddProfile<PostMetadataProfile>();
                 });
 
             mapperConfiguration.AssertConfigurationIsValid();

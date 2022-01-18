@@ -1,17 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soulgram.Posts.Api", "Soulgram.Posts.Api\Soulgram.Posts.Api.csproj", "{207213CD-34EE-46F9-BFE2-37CEAB37493C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Soulgram.Posts.Api", "Soulgram.Posts.Api\Soulgram.Posts.Api.csproj", "{207213CD-34EE-46F9-BFE2-37CEAB37493C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soulgram.Posts.Application", "Soulgram.Posts.Application\Soulgram.Posts.Application.csproj", "{F54603DD-CED4-43F1-AD73-89832835E76C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Soulgram.Posts.Application", "Soulgram.Posts.Application\Soulgram.Posts.Application.csproj", "{F54603DD-CED4-43F1-AD73-89832835E76C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soulgram.Posts.Infrastracture", "Soulgram.Posts.Infrastracture\Soulgram.Posts.Infrastracture.csproj", "{D756BFCE-E41D-4148-90DA-C9A02D2F6BA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Soulgram.Posts.Infrastracture", "Soulgram.Posts.Infrastracture\Soulgram.Posts.Infrastracture.csproj", "{D756BFCE-E41D-4148-90DA-C9A02D2F6BA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soulgram.Posts.Persistence", "Soulgram.Posts.Persistence\Soulgram.Posts.Persistence.csproj", "{8CEE3996-CB9F-40E7-B7EB-E3DDCC03EC1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Soulgram.Posts.Persistence", "Soulgram.Posts.Persistence\Soulgram.Posts.Persistence.csproj", "{8CEE3996-CB9F-40E7-B7EB-E3DDCC03EC1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soulgram.Posts.Domain", "Soulgram.Posts.Domain\Soulgram.Posts.Domain.csproj", "{EB6C1D90-680D-4FC1-A93B-91CE109902D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Soulgram.Posts.Domain", "Soulgram.Posts.Domain\Soulgram.Posts.Domain.csproj", "{EB6C1D90-680D-4FC1-A93B-91CE109902D6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{70F2AE1A-D12F-460F-895A-C65C96CB82FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soulgram.Posts.InregrationTests", "Soulgram.Posts.InregrationTests\Soulgram.Posts.InregrationTests.csproj", "{403110D0-B57B-4423-9F8D-2A8389D3B5E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,9 +43,16 @@ Global
 		{EB6C1D90-680D-4FC1-A93B-91CE109902D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB6C1D90-680D-4FC1-A93B-91CE109902D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB6C1D90-680D-4FC1-A93B-91CE109902D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{403110D0-B57B-4423-9F8D-2A8389D3B5E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{403110D0-B57B-4423-9F8D-2A8389D3B5E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{403110D0-B57B-4423-9F8D-2A8389D3B5E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{403110D0-B57B-4423-9F8D-2A8389D3B5E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{403110D0-B57B-4423-9F8D-2A8389D3B5E8} = {70F2AE1A-D12F-460F-895A-C65C96CB82FE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4AC109BE-668F-401C-B666-98A58D7DE4C6}

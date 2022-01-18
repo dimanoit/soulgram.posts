@@ -42,7 +42,8 @@ namespace Soulgram.Posts.Persistence
         private static ElasticClient GetElasticClient(ElasticOption elasticOption)
         {
             var url = new Uri(elasticOption.Url);
-            var settings = new ConnectionSettings(url);
+            var settings = new ConnectionSettings(url)
+                .DefaultIndex(elasticOption.Index);
 
             var client = new ElasticClient(settings);
             return client;

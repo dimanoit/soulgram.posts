@@ -20,11 +20,11 @@ namespace Soulgram.Posts.Api.Controllers
         }
 
         [HttpPost]
-        public async Task AddPost(PostPublicationRequest request, CancellationToken cancellationToken) =>
+        public async Task<string> AddPost(PostPublicationRequest request, CancellationToken cancellationToken) =>
             await _mediator.Send(new AddPostCommand(request), cancellationToken);
 
         [HttpPut]
-        public async Task EditPost(PostPublicationRequest request, CancellationToken cancellationToken) =>
+        public async Task EditPost(PostUpdateRequest request, CancellationToken cancellationToken) =>
             await _mediator.Send(new EditPostCommand(request), cancellationToken);
 
         [HttpDelete]

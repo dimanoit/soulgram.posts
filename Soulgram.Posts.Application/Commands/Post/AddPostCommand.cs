@@ -1,9 +1,10 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Nest;
 using Soulgram.Posts.Application.Models.Requests;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using IRequest = MediatR.IRequest;
 
 namespace Soulgram.Posts.Application.Commands.Post
 {
@@ -20,15 +21,24 @@ namespace Soulgram.Posts.Application.Commands.Post
         internal class Handler : IRequestHandler<AddPostCommand, string>
         {
             private readonly IElasticClient _client;
+            private readonly IMapper _mapper;
 
-            public Handler(IElasticClient client)
+            public Handler(IElasticClient client, IMapper mapper)
             {
                 _client = client;
+                _mapper = mapper;
             }
 
             public async Task<string> Handle(AddPostCommand request, CancellationToken cancellationToken)
             {
-                return await Task.FromResult("kek");
+                var domainPost = _mapper.Map<Domain.Post>(request.PostPublicationRequest);
+                var response = await _client.IndexDocumentAsync(domainPost, cancellationToken);
+                if (!response.IsValid)
+                {
+                    throw new Exception("Can't add post", response.OriginalException);
+                }
+
+                return response.Id;
             }
         }
     }

@@ -37,7 +37,7 @@ namespace Soulgram.Posts.Api
                         ValidateAudience = false
                     };
                 });
-
+            //TODO add authorization by scope
             services
                  .AddControllers(o => o.Filters.Add<ValidationFilter>())
                  .AddFluentValidation();
