@@ -50,7 +50,7 @@ public class Startup
                 .AllowAnyHeader();
         }));
         services.AddElasticContext(Configuration);
-        services.AddInfrastructure();
+        services.AddInfrastructure(Configuration);
         services.AddApplicationLayerDependencies();
     }
 

@@ -1,25 +1,38 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Soulgram.File.Manager;
 using Soulgram.Posts.Infrastracture.Mapper.Profiles;
 
-namespace Soulgram.Posts.Infrastracture
+namespace Soulgram.Posts.Infrastracture;
+
+public static class ServiceInjector
 {
-    public static class ServiceInjector
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services) =>
-            services.AddSingleton(_ => CreateMapper());
+        services.AddSingleton(_ => CreateMapper());
+        services.AddFileManager(configuration);
 
-        public static IMapper CreateMapper()
-        {
-            var mapperConfiguration =
-                new MapperConfiguration(cfg =>
-                {
-                    cfg.AddProfile<PostsProfile>();
-                    cfg.AddProfile<PostMetadataProfile>();
-                });
+        return services;
+    }
 
-            mapperConfiguration.AssertConfigurationIsValid();
-            return mapperConfiguration.CreateMapper();
-        }
+    private static IMapper CreateMapper()
+    {
+        var mapperConfiguration =
+            new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<PostsProfile>();
+                cfg.AddProfile<PostMetadataProfile>();
+            });
+
+        mapperConfiguration.AssertConfigurationIsValid();
+        return mapperConfiguration.CreateMapper();
+    }
+
+    private static void AddFileManager(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<BlobStorageOptions>(options => configuration.GetSection("BlobStorageOptions").Bind(options));
+        services.AddScoped<IContainerNameResolver, ContainerNameResolver>();
+        services.AddScoped<IFileManager, FileManager>();
     }
 }

@@ -348,3 +348,9 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+.DS_Store
+.idea/.idea.Soulgram.Posts/.idea/.name
+.idea/.idea.Soulgram.Posts/.idea/indexLayout.xml
+.idea/.idea.Soulgram.Posts/.idea/projectSettingsUpdater.xml
+.idea/.idea.Soulgram.Posts/.idea/workspace.xml
+.idea/.idea.Soulgram.Posts/.idea/vcs.xml
