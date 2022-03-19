@@ -23,6 +23,7 @@ public static class ServiceInjector
             {
                 cfg.AddProfile<PostsProfile>();
                 cfg.AddProfile<PostMetadataProfile>();
+                cfg.AddProfile<FileManagementProfile>();
             });
 
         mapperConfiguration.AssertConfigurationIsValid();

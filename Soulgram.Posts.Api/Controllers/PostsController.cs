@@ -19,7 +19,7 @@ public class PostsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<string> AddPost(PostPublicationRequest request, CancellationToken cancellationToken)
+    public async Task<string> AddPost([FromForm] PostPublicationRequest request, CancellationToken cancellationToken)
     {
         return await _mediator.Send(new AddPostCommand(request), cancellationToken);
     }

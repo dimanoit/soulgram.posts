@@ -1,12 +1,7 @@
 ﻿using AutoMapper;
 
-namespace Soulgram.Posts.Infrastracture.Mapper.Profiles
-{
+namespace Soulgram.Posts.Infrastracture.Mapper.Profiles;
 
-    internal class PostMetadataProfile : Profile
-    {
-        public PostMetadataProfile()
-        {
-        }
-    }
+internal class PostMetadataProfile : Profile
+{
 }

@@ -8,5 +8,5 @@ public record Post
     public string Text { get; init; }
     public string[] Hashtags { get; set; }
     public IEnumerable<string> Medias { get; init; }
-    public PostType PostType { get; init; }
+    public PostType Type { get; init; }
 }

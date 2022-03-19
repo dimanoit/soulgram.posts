@@ -1,9 +1,5 @@
-﻿using MediatR;
+﻿namespace Soulgram.Posts.Application.Queries;
 
-namespace Soulgram.Posts.Application.Queries
+public class GetLikersByPostIdQuery
 {
-	public class GetLikersByPostIdQuery
-	{
-
-	}
 }
