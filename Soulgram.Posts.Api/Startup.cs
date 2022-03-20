@@ -1,6 +1,7 @@
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -8,7 +9,7 @@ using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Soulgram.Posts.Api.Filters;
 using Soulgram.Posts.Application;
-using Soulgram.Posts.Infrastracture;
+using Soulgram.Posts.Infrastructure;
 using Soulgram.Posts.Persistence;
 
 namespace Soulgram.Posts.Api;
@@ -39,7 +40,11 @@ public class Startup
             });
         //TODO add authorization by scope
         services
-            .AddControllers(o => o.Filters.Add<ValidationFilter>())
+            .AddControllers(o =>
+            {
+                o.Filters.Add<ValidationFilter>();
+                o.Filters.Add(new ProducesAttribute("application/json"));
+            })
             .AddNewtonsoftJson()
             .AddFluentValidation();
 

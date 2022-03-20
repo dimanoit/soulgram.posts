@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
-using Soulgram.File.Manager;
+using Soulgram.File.Manager.Models;
 
-namespace Soulgram.Posts.Infrastracture.Mapper.Profiles;
+namespace Soulgram.Posts.Infrastructure.Mapper.Profiles;
 
 internal class FileManagementProfile : Profile
 {

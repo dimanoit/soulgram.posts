@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace Soulgram.Posts.Infrastracture.Mapper.Profiles;
+namespace Soulgram.Posts.Infrastructure.Mapper.Profiles;
 
 internal class PostMetadataProfile : Profile
 {

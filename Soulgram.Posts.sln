@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Soulgram.Posts.Api", "Soulg
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Soulgram.Posts.Application", "Soulgram.Posts.Application\Soulgram.Posts.Application.csproj", "{F54603DD-CED4-43F1-AD73-89832835E76C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Soulgram.Posts.Infrastracture", "Soulgram.Posts.Infrastracture\Soulgram.Posts.Infrastracture.csproj", "{D756BFCE-E41D-4148-90DA-C9A02D2F6BA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Soulgram.Posts.Infrastructure", "Soulgram.Posts.Infrastructure\Soulgram.Posts.Infrastructure.csproj", "{D756BFCE-E41D-4148-90DA-C9A02D2F6BA9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Soulgram.Posts.Persistence", "Soulgram.Posts.Persistence\Soulgram.Posts.Persistence.csproj", "{8CEE3996-CB9F-40E7-B7EB-E3DDCC03EC1D}"
 EndProject

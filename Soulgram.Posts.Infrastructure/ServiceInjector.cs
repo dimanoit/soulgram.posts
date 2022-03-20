@@ -2,9 +2,11 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Soulgram.File.Manager;
-using Soulgram.Posts.Infrastracture.Mapper.Profiles;
+using Soulgram.File.Manager.Interfaces;
+using Soulgram.File.Manager.Models;
+using Soulgram.Posts.Infrastructure.Mapper.Profiles;
 
-namespace Soulgram.Posts.Infrastracture;
+namespace Soulgram.Posts.Infrastructure;
 
 public static class ServiceInjector
 {

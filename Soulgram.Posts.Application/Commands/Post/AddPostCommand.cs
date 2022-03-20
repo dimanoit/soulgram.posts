@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Nest;
-using Soulgram.File.Manager;
+using Soulgram.File.Manager.Interfaces;
+using Soulgram.File.Manager.Models;
 using Soulgram.Posts.Application.Models.Requests;
 
 namespace Soulgram.Posts.Application.Commands.Post;

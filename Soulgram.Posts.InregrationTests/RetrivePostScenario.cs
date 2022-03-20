@@ -42,7 +42,7 @@ public class RetrivePostScenario : IClassFixture<WebApplicationFactory<Startup>>
         client.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Test");
 
-        var response = await client.GetAsync("api/search?Id=ITISaH4B6A1yFUQ9rg7y");
+        var response = await client.GetAsync("api/search?Id=0yvEon8B-tvYlmoMI4aE");
 
         response.EnsureSuccessStatusCode();
     }

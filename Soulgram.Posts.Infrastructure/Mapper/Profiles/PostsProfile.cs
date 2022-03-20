@@ -3,7 +3,7 @@ using AutoMapper;
 using Soulgram.Posts.Application.Models.Post;
 using Soulgram.Posts.Application.Models.Post.Base;
 
-namespace Soulgram.Posts.Infrastracture.Mapper.Profiles;
+namespace Soulgram.Posts.Infrastructure.Mapper.Profiles;
 
 internal class PostsProfile : Profile
 {
