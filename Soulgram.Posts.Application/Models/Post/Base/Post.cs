@@ -8,5 +8,4 @@ public record Post
     public string Text { get; init; }
 
     public IEnumerable<string> Hashtags { get; set; }
-    public IEnumerable<string> Medias { get; init; }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Nest;
 using Soulgram.File.Manager.Interfaces;
@@ -9,6 +10,20 @@ namespace Soulgram.Posts.Application.Mapper;
 
 public static class PostMapper
 {
+    public static Article ToArticle(this ArticlePublicationRequest request)
+    {
+        var article = new Article
+        {
+            Content = request.Text,
+            Title = request.Title,
+            UserId = request.UserId,
+            Hashtags = request.Hashtags,
+            CreationDate = DateTime.UtcNow
+        };
+
+        return article;
+    }
+
     public static EnrichedPost ToEnrichedPost(this IHit<Post> post)
     {
         return post.Source.ToEnrichedPost(post.Id);
