@@ -6,7 +6,7 @@ public record Post
 {
     public string UserId { get; init; }
     public string Text { get; init; }
-    public string[] Hashtags { get; set; }
+
+    public IEnumerable<string> Hashtags { get; set; }
     public IEnumerable<string> Medias { get; init; }
-    public PostType Type { get; init; }
 }

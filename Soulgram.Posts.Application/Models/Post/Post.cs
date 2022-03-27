@@ -1,7 +1,7 @@
-﻿namespace Soulgram.Posts.Application.Models.Post
+﻿namespace Soulgram.Posts.Application.Models.Post;
+
+public record EnrichedPost : Base.Post
 {
-    public record EnrichedPost : Base.Post
-    {
-        public PostMetadata Metadata { get; set; }
-    }
+    public PostMetadata Metadata { get; set; }
+    public string Id { get; init; }
 }

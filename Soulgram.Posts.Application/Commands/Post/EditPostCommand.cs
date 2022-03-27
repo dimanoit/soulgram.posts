@@ -1,52 +1,50 @@
 ﻿using System;
-using MediatR;
-using Soulgram.Posts.Application.Models.Requests;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
+using MediatR;
 using Nest;
+using Soulgram.File.Manager.Interfaces;
+using Soulgram.Posts.Application.Mapper;
+using Soulgram.Posts.Application.Models.Requests;
 using IRequest = MediatR.IRequest;
 
-namespace Soulgram.Posts.Application.Commands.Post
+namespace Soulgram.Posts.Application.Commands.Post;
+
+public class EditPostCommand : IRequest
 {
-    public class EditPostCommand : IRequest
+    private readonly PostUpdateRequest _postPublicationRequest;
+
+    public EditPostCommand(PostUpdateRequest postPublicationRequest)
     {
-        public EditPostCommand(PostUpdateRequest postPublicationRequest)
+        _postPublicationRequest = postPublicationRequest;
+    }
+
+
+    internal class Handler : IRequestHandler<EditPostCommand>
+    {
+        private readonly IElasticClient _client;
+        private readonly IFileManager _fileManager;
+
+        public Handler(IElasticClient client, IFileManager fileManager)
         {
-            PostPublicationRequest = postPublicationRequest;
+            _client = client;
+            _fileManager = fileManager;
         }
 
-        public PostUpdateRequest PostPublicationRequest { get; }
-
-
-        internal class Handler : IRequestHandler<EditPostCommand>
+        public async Task<Unit> Handle(EditPostCommand request, CancellationToken cancellationToken)
         {
-            private readonly IMapper _mapper;
-            private readonly IElasticClient _client;
+            //TODO mapping delete all properties
+            var postToUpdate = await request._postPublicationRequest.ToPost(_fileManager);
 
-            public Handler(IElasticClient client, IMapper mapper)
-            {
-                _client = client;
-                _mapper = mapper;
-            }
+            var response = await _client.UpdateAsync<Domain.Post>(
+                request._postPublicationRequest.PostId,
+                _ => _.Doc(postToUpdate),
+                cancellationToken);
 
-            public async Task<Unit> Handle(EditPostCommand request, CancellationToken cancellationToken)
-            {
-                var postToUpdate = _mapper.Map<Domain.Post>(request.PostPublicationRequest);
+            //TODO make common exception handling
+            if (!response.IsValid) throw new Exception("Bla bla", response.OriginalException);
 
-                var response = await _client.UpdateAsync<Domain.Post>(
-                    request.PostPublicationRequest.PostId,
-                    _ => _.Doc(postToUpdate),
-                    cancellationToken);
-
-                //TODO make common exception handling
-                if (!response.IsValid)
-                {
-                    throw new Exception("Bla bla", response.OriginalException);
-                }
-
-                return Unit.Value;
-            }
+            return Unit.Value;
         }
     }
 }

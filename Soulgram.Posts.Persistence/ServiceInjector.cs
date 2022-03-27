@@ -27,12 +27,27 @@ public static class ServiceInjector
     {
         var client = GetElasticClient(elasticOption);
 
-        if (client.Indices.Exists(elasticOption.Index).Exists) return;
+        if (client.Indices.Exists(elasticOption.Index).Exists)
+        {
+            Console.WriteLine("Index exist");
+            return;
+        }
 
+        Console.WriteLine($"Creating index with name {elasticOption.Index}...");
         var response = client
             .Indices
-            .Create(elasticOption.Index, c => c.Map<Post>(m => m.AutoMap()));
+            .Create(elasticOption.Index,
+                createIndexDescriptor =>
+                {
+                    return createIndexDescriptor.Map<BasePost>(m => m
+                        .AutoMap<Post>()
+                        .AutoMap<Comment>()
+                        .AutoMap<Article>()
+                        .AutoMap<Story>()
+                    );
+                });
 
+        Console.WriteLine("Index created");
         if (!response.IsValid)
             // TODO create own exception classes and log exception
             throw new Exception("Elastic Search create index exception", response.OriginalException);

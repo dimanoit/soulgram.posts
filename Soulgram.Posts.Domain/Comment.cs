@@ -1,20 +1,8 @@
 ﻿using Nest;
-using System;
-using System.Collections.Generic;
 
-namespace Soulgram.Posts.Domain
+namespace Soulgram.Posts.Domain;
+
+public record Comment : BasePost
 {
-    public record Comment
-    {
-        [Object(Enabled = false)]
-        public string Text { get; init; }
-
-        [Keyword(Name = "user_id")]
-        public string UserId { get; init; }
-
-        public DateTime Date { get; init; }
-
-        [Nested]
-        public IEnumerable<Like> Likes { get; init; }
-    }
+    [Object(Enabled = false)] public string Data { get; init; }
 }

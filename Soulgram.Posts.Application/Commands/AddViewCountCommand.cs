@@ -30,7 +30,6 @@ namespace Soulgram.Posts.Application.Commands
             {
                 var partPostToUpdate = new Domain.Post()
                 {
-                    Views = request.ViewCount
                 };
 
                 var response = await _client.UpdateAsync<Domain.Post>(

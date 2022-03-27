@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using MediatR;
 using Nest;
+using Soulgram.Posts.Application.Mapper;
 using Soulgram.Posts.Application.Models.Post;
 using Soulgram.Posts.Application.Models.Requests;
 using Soulgram.Posts.Domain;
@@ -23,12 +23,10 @@ public class GetPostsByIdQuery : MediatR.IRequest<EnrichedPost>
     internal class Handler : IRequestHandler<GetPostsByIdQuery, EnrichedPost>
     {
         private readonly IElasticClient _client;
-        private readonly IMapper _mapper;
 
-        public Handler(IElasticClient client, IMapper mapper)
+        public Handler(IElasticClient client)
         {
             _client = client;
-            _mapper = mapper;
         }
 
         public async Task<EnrichedPost> Handle(GetPostsByIdQuery request, CancellationToken cancellationToken)
@@ -36,10 +34,7 @@ public class GetPostsByIdQuery : MediatR.IRequest<EnrichedPost>
             var response = await _client.GetAsync<Post>(request.Request.Id, ct: cancellationToken);
             if (!response.IsValid) throw new Exception("Bla bla bla", response.OriginalException);
 
-            if (!response.Found) return null;
-
-            var enrichedPost = _mapper.Map<EnrichedPost>(response.Source);
-            return enrichedPost;
+            return !response.Found ? null : response.ToEnrichedPost();
         }
     }
 }
