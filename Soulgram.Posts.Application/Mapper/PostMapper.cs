@@ -4,6 +4,7 @@ using Nest;
 using Soulgram.File.Manager.Interfaces;
 using Soulgram.Posts.Application.Models.Post;
 using Soulgram.Posts.Application.Models.Requests;
+using Soulgram.Posts.Application.Services;
 using Soulgram.Posts.Domain;
 
 namespace Soulgram.Posts.Application.Mapper;
@@ -18,6 +19,7 @@ public static class PostMapper
             Title = request.Title,
             UserId = request.UserId,
             Hashtags = request.Hashtags,
+            Type = DocumentType.Article,
             CreationDate = DateTime.UtcNow
         };
 
@@ -50,13 +52,16 @@ public static class PostMapper
 
     public static async Task<Post> ToPost(
         this PostPublicationRequest request,
-        IFileManager fileManager)
+        IFileManager fileManager,
+        ICurrentDateProvider dateProvider)
     {
         var post = new Post
         {
             UserId = request.UserId,
             Description = request.Text,
-            Hashtags = request.Hashtags
+            Hashtags = request.Hashtags,
+            Type = DocumentType.Post,
+            CreationDate = dateProvider.Now
         };
 
         await UploadFiles(request, fileManager, post);

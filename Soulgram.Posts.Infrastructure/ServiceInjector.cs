@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Soulgram.File.Manager;
 using Soulgram.File.Manager.Interfaces;
 using Soulgram.File.Manager.Models;
+using Soulgram.Posts.Application.Services;
 
 namespace Soulgram.Posts.Infrastructure;
 
@@ -11,7 +12,7 @@ public static class ServiceInjector
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddFileManager(configuration);
-
+        services.AddScoped<ICurrentDateProvider, CurrentDateProvider>();
         return services;
     }
 

@@ -31,20 +31,21 @@ public class GetPostsByUserIdQuery : MediatR.IRequest<PostsByIdResponse>
 
         public async Task<PostsByIdResponse> Handle(GetPostsByUserIdQuery request, CancellationToken cancellationToken)
         {
-            var searchResult = await _client.SearchAsync<Post>(x => x
-                .Query(query => query
-                    .Term(term => term
-                        .Field(field => field.UserId)
-                        .Value(request.Request.UserId)
-                    )
-                ), cancellationToken);
+            var searchResult = await _client
+                .SearchAsync<Post>(x => x
+                    .Query(q =>
+                        q.Term(p => p.UserId, request.Request.UserId)
+                        &&
+                        q.Term(p => p.Type, DocumentType.Post.ToString())
+                    ), cancellationToken);
 
-            var hit = searchResult.Hits?.FirstOrDefault();
-            if (hit == null) return null;
+
+            var hits = searchResult.Hits;
+            if (hits == null) return null;
 
             var response = new PostsByIdResponse
             {
-                Data = new[] {hit.ToEnrichedPost()},
+                Data = hits.Select(h => h.ToEnrichedPost()),
                 TotalCount = (int) searchResult.Total
             };
 
