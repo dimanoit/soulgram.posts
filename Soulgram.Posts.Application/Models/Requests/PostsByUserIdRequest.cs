@@ -1,9 +1,8 @@
 ﻿using Soulgram.Posts.Application.Models.Common;
 
-namespace Soulgram.Posts.Application.Models.Requests
+namespace Soulgram.Posts.Application.Models.Requests;
+
+public record PostsByUserIdRequest : PageRequestBase
 {
-    public record PostsByUserIdRequest : PageRequestBase
-    {
-        public string UserId { get; set; }
-    }
+    public string UserId { get; set; }
 }

@@ -1,6 +1,5 @@
-﻿namespace Soulgram.Posts.Api.Middlewares
+﻿namespace Soulgram.Posts.Api.Middlewares;
+
+public class ExceptionMiddleware
 {
-	public class ExceptionMiddleware
-	{
-	}
 }

@@ -1,50 +1,45 @@
-﻿using MediatR;
-using Nest;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using MediatR;
+using Nest;
 using IRequest = MediatR.IRequest;
 
-namespace Soulgram.Posts.Application.Commands
+namespace Soulgram.Posts.Application.Commands;
+
+public class AddViewCountCommand : IRequest
 {
-    public class AddViewCountCommand : IRequest
+    public AddViewCountCommand(string postId, int viewCount)
     {
-        public AddViewCountCommand(string postId, int viewCount)
+        PostId = postId;
+        ViewCount = viewCount;
+    }
+
+    public string PostId { get; }
+    public int ViewCount { get; }
+
+    internal class Handler : IRequestHandler<AddViewCountCommand>
+    {
+        private readonly IElasticClient _client;
+
+        public Handler(IElasticClient client)
         {
-            PostId = postId;
-            ViewCount = viewCount;
+            _client = client;
         }
-        public string PostId { get; }
-        public int ViewCount { get; }
 
-        internal class Handler : IRequestHandler<AddViewCountCommand>
+        public async Task<Unit> Handle(AddViewCountCommand request, CancellationToken cancellationToken)
         {
-            private readonly IElasticClient _client;
+            var partPostToUpdate = new Domain.Post();
 
-            public Handler(IElasticClient client)
-            {
-                _client = client;
-            }
+            var response = await _client.UpdateAsync<Domain.Post>(
+                request.PostId,
+                _ => _.Doc(partPostToUpdate),
+                cancellationToken);
 
-            public async Task<Unit> Handle(AddViewCountCommand request, CancellationToken cancellationToken)
-            {
-                var partPostToUpdate = new Domain.Post()
-                {
-                };
+            //TODO make common exception handling
+            if (!response.IsValid) throw new Exception("Bla bla", response.OriginalException);
 
-                var response = await _client.UpdateAsync<Domain.Post>(
-                    request.PostId,
-                    _ => _.Doc(partPostToUpdate),
-                    cancellationToken);
-
-                //TODO make common exception handling
-                if (!response.IsValid)
-                {
-                    throw new Exception("Bla bla", response.OriginalException);
-                }
-
-                return Unit.Value;
-            }
+            return Unit.Value;
         }
     }
 }

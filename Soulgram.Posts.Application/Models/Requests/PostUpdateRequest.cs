@@ -1,7 +1,6 @@
-﻿namespace Soulgram.Posts.Application.Models.Requests
+﻿namespace Soulgram.Posts.Application.Models.Requests;
+
+public record PostUpdateRequest : PostPublicationRequest
 {
-    public record PostUpdateRequest : PostPublicationRequest
-    {
-        public string PostId { get; init; }
-    }
+    public string PostId { get; init; }
 }

@@ -1,10 +1,9 @@
 ﻿using System;
 
-namespace Soulgram.Posts.Application.Models.Post
+namespace Soulgram.Posts.Application.Models.Post;
+
+public record Like
 {
-    public record Like
-    {
-        public string UserId { get; init; }
-        public DateTime Date { get; init; }
-    }
+    public string UserId { get; init; }
+    public DateTime Date { get; init; }
 }

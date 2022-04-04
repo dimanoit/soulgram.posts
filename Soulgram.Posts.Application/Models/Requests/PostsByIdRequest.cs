@@ -1,7 +1,6 @@
-﻿namespace Soulgram.Posts.Application.Models.Requests
+﻿namespace Soulgram.Posts.Application.Models.Requests;
+
+public record PostsByIdRequest
 {
-    public record PostsByIdRequest
-    {
-        public string Id { get; init; }
-    }
+    public string Id { get; init; }
 }

@@ -1,10 +1,9 @@
-﻿using Soulgram.Posts.Application.Models.Post.Base;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Soulgram.Posts.Application.Models.Post.Base;
 
-namespace Soulgram.Posts.Application.Models.Post
+namespace Soulgram.Posts.Application.Models.Post;
+
+public record Comment : BaseComment
 {
-	public record Comment : BaseComment
-	{
-		public IEnumerable<Like> Likes { get; set; }
-	}
+    public IEnumerable<Like> Likes { get; set; }
 }
