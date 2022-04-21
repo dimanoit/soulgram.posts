@@ -44,7 +44,8 @@ public static class PostMapper
             UserId = post.UserId,
             Text = post.Description,
             Medias = post.Medias,
-            Hashtags = post.Hashtags
+            Hashtags = post.Hashtags,
+            CreationDate = post.CreationDate
         };
 
         return enrichedPost;
