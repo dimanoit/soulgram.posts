@@ -12,7 +12,7 @@ public static class ServiceInjector
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         //services.AddFileManager(configuration); TODO add after AZURE Integration
-        services.AddLocalFileManager();
+        services.AddLocalFileManager(configuration);
         services.AddScoped<ICurrentDateProvider, CurrentDateProvider>();
         return services;
     }
@@ -23,9 +23,12 @@ public static class ServiceInjector
         services.AddScoped<IContainerNameResolver, ContainerNameResolver>();
         services.AddScoped<IFileManager, FileManager>();
     }
-    
-    private static void AddLocalFileManager(this IServiceCollection services)
+
+    private static void AddLocalFileManager(this IServiceCollection services, IConfiguration configuration)
     {
+        services.Configure<LocalFileManagerOptions>(options =>
+            configuration.GetSection("LocalFileManagerOptions").Bind(options));
+
         services.AddScoped<IFileManager, LocalFileManager>();
     }
 }
