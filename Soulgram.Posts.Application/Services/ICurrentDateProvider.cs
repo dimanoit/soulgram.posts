@@ -4,5 +4,5 @@ namespace Soulgram.Posts.Application.Services;
 
 public interface ICurrentDateProvider
 {
-    DateTime Now { get; set; }
+    DateTime Now { get; }
 }
