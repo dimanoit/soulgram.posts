@@ -11,7 +11,8 @@ public static class ServiceInjector
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddFileManager(configuration);
+        //services.AddFileManager(configuration); TODO add after AZURE Integration
+        services.AddLocalFileManager();
         services.AddScoped<ICurrentDateProvider, CurrentDateProvider>();
         return services;
     }
@@ -21,5 +22,10 @@ public static class ServiceInjector
         services.Configure<BlobStorageOptions>(options => configuration.GetSection("BlobStorageOptions").Bind(options));
         services.AddScoped<IContainerNameResolver, ContainerNameResolver>();
         services.AddScoped<IFileManager, FileManager>();
+    }
+    
+    private static void AddLocalFileManager(this IServiceCollection services)
+    {
+        services.AddScoped<IFileManager, LocalFileManager>();
     }
 }
