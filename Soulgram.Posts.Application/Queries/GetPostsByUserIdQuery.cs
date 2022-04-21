@@ -41,7 +41,10 @@ public class GetPostsByUserIdQuery : MediatR.IRequest<PostsByIdResponse>
 
 
             var hits = searchResult.Hits;
-            if (hits == null) return null;
+            if (hits == null)
+            {
+                return null;
+            }
 
             var response = new PostsByIdResponse
             {

@@ -32,7 +32,10 @@ public class AddArticleCommand : MediatR.IRequest<string>
 
             var response = await _client.IndexDocumentAsync(article, cancellationToken);
 
-            if (!response.IsValid) throw new Exception("Can't add post", response.OriginalException);
+            if (!response.IsValid)
+            {
+                throw new Exception("Can't add post", response.OriginalException);
+            }
 
             return response.Id;
         }

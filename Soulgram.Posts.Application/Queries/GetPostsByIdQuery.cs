@@ -32,7 +32,10 @@ public class GetPostsByIdQuery : MediatR.IRequest<EnrichedPost>
         public async Task<EnrichedPost> Handle(GetPostsByIdQuery request, CancellationToken cancellationToken)
         {
             var response = await _client.GetAsync<Post>(request.Request.Id, ct: cancellationToken);
-            if (!response.IsValid) throw new Exception("Bla bla bla", response.OriginalException);
+            if (!response.IsValid)
+            {
+                throw new Exception("Bla bla bla", response.OriginalException);
+            }
 
             return !response.Found ? null : response.ToEnrichedPost();
         }

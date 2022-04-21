@@ -13,7 +13,10 @@ public class ValidationFilter : IActionFilter
 
     public void OnActionExecuting(ActionExecutingContext context)
     {
-        if (context.ModelState.IsValid) return;
+        if (context.ModelState.IsValid)
+        {
+            return;
+        }
 
         var errorList = context.ModelState
             .Select(model => new

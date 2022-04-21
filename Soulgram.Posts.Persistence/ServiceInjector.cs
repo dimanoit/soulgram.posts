@@ -50,7 +50,9 @@ public static class ServiceInjector
         Console.WriteLine("Index created");
         if (!response.IsValid)
             // TODO create own exception classes and log exception
+        {
             throw new Exception("Elastic Search create index exception", response.OriginalException);
+        }
     }
 
     private static ElasticClient GetElasticClient(ElasticOption elasticOption)
