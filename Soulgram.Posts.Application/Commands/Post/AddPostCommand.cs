@@ -39,7 +39,10 @@ public class AddPostCommand : MediatR.IRequest<string>
 
             var response = await _client.IndexDocumentAsync(post, cancellationToken);
 
-            if (!response.IsValid) throw new Exception("Can't add post", response.OriginalException);
+            if (!response.IsValid)
+            {
+                throw new Exception("Can't add post", response.OriginalException);
+            }
 
             return response.Id;
         }

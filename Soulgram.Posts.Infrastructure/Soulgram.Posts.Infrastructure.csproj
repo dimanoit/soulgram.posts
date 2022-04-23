@@ -6,12 +6,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Soulgram.Posts.Application\Soulgram.Posts.Application.csproj" />
-        <ProjectReference Include="..\Soulgram.Posts.Domain\Soulgram.Posts.Domain.csproj" />
+        <ProjectReference Include="..\Soulgram.Posts.Application\Soulgram.Posts.Application.csproj"/>
+        <ProjectReference Include="..\Soulgram.Posts.Domain\Soulgram.Posts.Domain.csproj"/>
     </ItemGroup>
 
 </Project>
