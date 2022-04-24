@@ -7,9 +7,9 @@ using Soulgram.Posts.Application.Models.Requests;
 using Soulgram.Posts.Application.Services;
 using Soulgram.Posts.Domain;
 
-namespace Soulgram.Posts.Application.Mapper;
+namespace Soulgram.Posts.Application.Converters;
 
-public static class PostMapper
+public static class PostDtoConverter
 {
     public static Article ToArticle(this ArticlePublicationRequest request)
     {
@@ -19,11 +19,34 @@ public static class PostMapper
             Title = request.Title,
             UserId = request.UserId,
             Hashtags = request.Hashtags,
+
             Type = DocumentType.Article,
-            CreationDate = DateTime.UtcNow
+            CreationDate = DateTime.UtcNow,
+            State = PostState.Published
         };
 
         return article;
+    }
+
+    public static async Task<Post> ToPost(
+        this PostPublicationRequest request,
+        IFileManager fileManager,
+        ICurrentDateProvider dateProvider)
+    {
+        var post = new Post
+        {
+            UserId = request.UserId,
+            Description = request.Text,
+            Hashtags = request.Hashtags,
+
+            Type = DocumentType.Post,
+            CreationDate = dateProvider.Now,
+            State = PostState.Published
+        };
+
+        await UploadFiles(request, fileManager, post);
+
+        return post;
     }
 
     public static EnrichedPost ToEnrichedPost(this IHit<Post> post)
@@ -49,25 +72,6 @@ public static class PostMapper
         };
 
         return enrichedPost;
-    }
-
-    public static async Task<Post> ToPost(
-        this PostPublicationRequest request,
-        IFileManager fileManager,
-        ICurrentDateProvider dateProvider)
-    {
-        var post = new Post
-        {
-            UserId = request.UserId,
-            Description = request.Text,
-            Hashtags = request.Hashtags,
-            Type = DocumentType.Post,
-            CreationDate = dateProvider.Now
-        };
-
-        await UploadFiles(request, fileManager, post);
-
-        return post;
     }
 
     private static async Task UploadFiles(PostPublicationRequest request, IFileManager fileManager, Post post)

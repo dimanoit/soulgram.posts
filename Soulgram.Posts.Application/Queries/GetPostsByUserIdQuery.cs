@@ -1,9 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Nest;
-using Soulgram.Posts.Application.Mapper;
+using Soulgram.Posts.Application.Converters;
 using Soulgram.Posts.Application.Models.Requests;
 using Soulgram.Posts.Application.Models.Responses;
 using Soulgram.Posts.Domain;
@@ -31,15 +32,9 @@ public class GetPostsByUserIdQuery : MediatR.IRequest<PostsByIdResponse>
 
         public async Task<PostsByIdResponse> Handle(GetPostsByUserIdQuery request, CancellationToken cancellationToken)
         {
-            var searchResult = await _client
-                .SearchAsync<Post>(x => x
-                    .Query(q =>
-                        q.Term(p => p.UserId, request.Request.UserId)
-                        &&
-                        q.Term(p => p.Type, DocumentType.Post.ToString())
-                    ), cancellationToken);
-
-
+            var searchResult = await _client.SearchAsync<Post>(x => x
+                .Query(SearchQuerySelector(request))
+                .Sort(sd => sd.Descending(p => p.CreationDate)), cancellationToken);
             var hits = searchResult.Hits;
             if (hits == null)
             {
@@ -53,6 +48,15 @@ public class GetPostsByUserIdQuery : MediatR.IRequest<PostsByIdResponse>
             };
 
             return response;
+        }
+
+        private static Func<QueryContainerDescriptor<Post>, QueryContainer> SearchQuerySelector(
+            GetPostsByUserIdQuery request)
+        {
+            return q =>
+                q.Term(p => p.UserId, request.Request.UserId)
+                &&
+                q.Term(p => p.Type, DocumentType.Post.ToString());
         }
     }
 }

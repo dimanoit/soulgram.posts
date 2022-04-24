@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Nest;
-using Soulgram.Posts.Application.Mapper;
+using Soulgram.Posts.Application.Converters;
 using Soulgram.Posts.Application.Models.Post;
 using Soulgram.Posts.Application.Models.Requests;
 using Soulgram.Posts.Domain;

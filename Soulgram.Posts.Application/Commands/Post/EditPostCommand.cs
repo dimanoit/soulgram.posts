@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Nest;
 using Soulgram.File.Manager.Interfaces;
-using Soulgram.Posts.Application.Mapper;
+using Soulgram.Posts.Application.Converters;
 using Soulgram.Posts.Application.Models.Requests;
 using Soulgram.Posts.Application.Services;
 using IRequest = MediatR.IRequest;

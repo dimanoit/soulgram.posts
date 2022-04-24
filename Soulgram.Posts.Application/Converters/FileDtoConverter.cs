@@ -3,9 +3,9 @@ using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Soulgram.File.Manager.Models;
 
-namespace Soulgram.Posts.Application.Mapper;
+namespace Soulgram.Posts.Application.Converters;
 
-public static class FileMapper
+public static class FileDtoConverter
 {
     public static FileInfo ToFileInfo(this IFormFile file)
     {

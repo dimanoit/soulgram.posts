@@ -30,7 +30,13 @@ public class PostsController : ControllerBase
         await _mediator.Send(new EditPostCommand(request), cancellationToken);
     }
 
-    [HttpDelete]
+    [HttpPatch]
+    public async Task MarkAsDraft(PostUpdateRequest request, CancellationToken cancellationToken)
+    {
+        await _mediator.Send(new EditPostCommand(request), cancellationToken);
+    }
+    
+    [HttpDelete("{postId}")]
     public async Task DeletePost(string postId, CancellationToken cancellationToken)
     {
         await _mediator.Send(new DeletePostCommand(postId), cancellationToken);
