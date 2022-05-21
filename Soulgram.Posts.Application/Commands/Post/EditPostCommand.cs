@@ -48,10 +48,7 @@ public class EditPostCommand : IRequest
                 cancellationToken);
 
             //TODO make common exception handling
-            if (!response.IsValid)
-            {
-                throw new Exception("Bla bla", response.OriginalException);
-            }
+            if (!response.IsValid) throw new Exception("Bla bla", response.OriginalException);
 
             return Unit.Value;
         }

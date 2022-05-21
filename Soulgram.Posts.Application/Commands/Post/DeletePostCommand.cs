@@ -29,10 +29,7 @@ public class DeletePostCommand : IRequest
         public async Task<Unit> Handle(DeletePostCommand request, CancellationToken cancellationToken)
         {
             var response = await _client.DeleteAsync<Domain.Post>(request.PostId, ct: cancellationToken);
-            if (!response.IsValid)
-            {
-                throw new Exception("Can't delete post", response.OriginalException);
-            }
+            if (!response.IsValid) throw new Exception("Can't delete post", response.OriginalException);
 
             return await Unit.Task;
         }

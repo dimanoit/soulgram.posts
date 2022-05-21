@@ -36,15 +36,12 @@ public class GetPostsByUserIdQuery : MediatR.IRequest<PostsByIdResponse>
                 .Query(SearchQuerySelector(request))
                 .Sort(sd => sd.Descending(p => p.CreationDate)), cancellationToken);
             var hits = searchResult.Hits;
-            if (hits == null)
-            {
-                return null;
-            }
+            if (hits == null) return null;
 
             var response = new PostsByIdResponse
             {
                 Data = hits.Select(h => h.ToEnrichedPost()),
-                TotalCount = (int) searchResult.Total
+                TotalCount = (int)searchResult.Total
             };
 
             return response;

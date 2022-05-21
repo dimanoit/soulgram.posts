@@ -17,7 +17,7 @@ public static class ServiceInjector
         services.AddMediatR(currentAssembly);
         services.AddValidatorsFromAssembly(currentAssembly);
         services.AddLogging(configuration);
-        
+
         return services;
     }
 

@@ -50,9 +50,7 @@ public static class ServiceInjector
         Console.WriteLine("Index created");
         if (!response.IsValid)
             // TODO create own exception classes and log exception
-        {
             throw new Exception("Elastic Search create index exception", response.OriginalException);
-        }
     }
 
     private static ElasticClient GetElasticClient(ElasticOption elasticOption)
@@ -65,7 +63,7 @@ public static class ServiceInjector
                     new JsonNetSerializer(
                         builtin,
                         settings,
-                        contractJsonConverters: new JsonConverter[] {new StringEnumConverter()}))
+                        contractJsonConverters: new JsonConverter[] { new StringEnumConverter() }))
             .DefaultIndex(elasticOption.Index);
 
         var client = new ElasticClient(connectionSettings);
