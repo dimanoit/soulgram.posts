@@ -11,7 +11,7 @@ using Soulgram.Posts.Application.Queries;
 namespace Soulgram.Posts.Api.Controllers;
 
 [Route("api/[controller]")]
-[Authorize]
+//[Authorize] // TODO think about auth on gateway
 public class SearchController : ControllerBase
 {
     private readonly IMediator _mediator;
