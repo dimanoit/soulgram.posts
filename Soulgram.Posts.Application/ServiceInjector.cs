@@ -10,7 +10,7 @@ namespace Soulgram.Posts.Application;
 
 public static class ServiceInjector
 {
-    public static IServiceCollection AddApplicationLayerDependencies(this IServiceCollection services,
+    public static IServiceCollection AddApplication(this IServiceCollection services,
         IConfiguration configuration)
     {
         var currentAssembly = Assembly.GetExecutingAssembly();

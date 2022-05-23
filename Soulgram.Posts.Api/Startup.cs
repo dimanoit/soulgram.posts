@@ -56,7 +56,7 @@ public class Startup
         }));
         services.AddElasticContext(Configuration);
         services.AddInfrastructure(Configuration);
-        services.AddApplicationLayerDependencies(Configuration);
+        services.AddApplication(Configuration);
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
