@@ -11,8 +11,8 @@ public static class ServiceInjector
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        //services.AddFileManager(configuration); TODO add after AZURE Integration
-        services.AddLocalFileManager(configuration);
+        services.AddFileManager(configuration);
+        //services.AddLocalFileManager(configuration); FOR Dev testing
         services.AddScoped<ICurrentDateProvider, CurrentDateProvider>();
         return services;
     }
