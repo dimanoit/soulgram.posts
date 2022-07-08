@@ -17,15 +17,15 @@ public class LikesController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpPut("{postId}")]
+    [HttpPut("{postId}/users/{userId}")]
     public async Task AddLike(string postId, string userId, CancellationToken cancellationToken)
     {
         await _mediator.Send(new AddLikeCommand(userId, postId), cancellationToken);
     }
 
-    [HttpDelete("{postId}")]
+    [HttpDelete("{postId}/users/{userId}")]
     public async Task DeleteLike(string postId, string userId, CancellationToken cancellationToken)
     {
-        await _mediator.Send(new DeleteLikeCommand(postId, userId), cancellationToken);
+        await _mediator.Send(new DeleteLikeCommand(userId, postId), cancellationToken);
     }
 }

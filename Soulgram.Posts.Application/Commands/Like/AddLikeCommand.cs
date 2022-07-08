@@ -1,26 +1,49 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Nest;
+using Soulgram.Posts.Application.Services;
+using Soulgram.Posts.Domain;
+using IRequest = MediatR.IRequest;
 
 namespace Soulgram.Posts.Application.Commands.Like;
 
-public class AddLikeCommand : IRequest
+public record AddLikeCommand(string UserId, string PostId) : IRequest;
+
+internal class AddLikeCommandHandler : IRequestHandler<AddLikeCommand>
 {
-    public AddLikeCommand(string userId, string postId)
+    private readonly IElasticClient _elasticClient;
+    private readonly ICurrentDateProvider _dateProvider;
+
+    public AddLikeCommandHandler(
+        IElasticClient elasticClient,
+        ICurrentDateProvider dateProvider)
     {
-        UserId = userId;
-        PostId = postId;
+        _elasticClient = elasticClient;
+        _dateProvider = dateProvider;
     }
 
-    public string UserId { get; }
-    public string PostId { get; }
-
-
-    internal class Handler : IRequestHandler<AddLikeCommand>
+    public async Task<Unit> Handle(AddLikeCommand request, CancellationToken cancellationToken)
     {
-        public Task<Unit> Handle(AddLikeCommand request, CancellationToken cancellationToken)
+        var like = new UserInteraction
         {
-            return Unit.Task;
+            CreateDate = _dateProvider.Now,
+            UserId = request.UserId
+        };
+
+        var updateResult = await _elasticClient.UpdateAsync<Domain.Post>(
+            request.PostId,
+            u => u.Script(s => s
+                .Source("ctx._source.likes.add(params.like)")
+                .Params(parameters => parameters.Add("like", like))),
+            cancellationToken);
+
+        if (updateResult.IsValid)
+        {
+            return Unit.Value;
         }
+
+        throw new NotImplementedException();
     }
 }

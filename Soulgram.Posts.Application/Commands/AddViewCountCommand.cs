@@ -30,7 +30,6 @@ public class AddViewCountCommand : IRequest
         public async Task<Unit> Handle(AddViewCountCommand request, CancellationToken cancellationToken)
         {
             var partPostToUpdate = new Domain.Post();
-
             var response = await _client.UpdateAsync<Domain.Post>(
                 request.PostId,
                 _ => _.Doc(partPostToUpdate),

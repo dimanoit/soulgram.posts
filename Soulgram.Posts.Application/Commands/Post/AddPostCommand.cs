@@ -38,7 +38,7 @@ public class AddPostCommand : MediatR.IRequest<string>
             var post = await request._postPublicationRequest.ToPost(_fileManager, _currentDateProvider);
 
             var response = await _client.IndexDocumentAsync(post, cancellationToken);
-
+            
             if (!response.IsValid) throw new Exception("Can't add post", response.OriginalException);
 
             return response.Id;
