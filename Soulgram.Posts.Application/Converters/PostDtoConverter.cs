@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Nest;
 using Soulgram.File.Manager.Interfaces;
@@ -49,18 +50,36 @@ public static class PostDtoConverter
         return post;
     }
 
-    public static EnrichedPost ToEnrichedPost(this IHit<Post> post)
+    public static EnrichedPost ToEnrichedPost(
+        this IHit<Post> post,
+        string currentUserId)
     {
-        return post.Source.ToEnrichedPost(post.Id);
+        return post.Source.ToEnrichedPost(currentUserId, post.Id);
     }
 
-    public static EnrichedPost ToEnrichedPost(this GetResponse<Post> post)
+    public static EnrichedPost ToEnrichedPost(
+        this GetResponse<Post> post,
+        string currentUserId)
     {
-        return post.Source.ToEnrichedPost(post.Id);
+        return post.Source.ToEnrichedPost(currentUserId, post.Id);
     }
 
-    public static EnrichedPost ToEnrichedPost(this Post post, string id = "")
+    public static EnrichedPost ToEnrichedPost(
+        this Post post,
+        string currentUserId,
+        string id = "")
     {
+        var likes = post.Likes?.ToArray() ?? Array.Empty<UserInteraction>();
+
+        var likedByCurrentUser = likes.Any(l => l.UserId == currentUserId);
+        
+        var metadata = new PostMetadata
+        {
+            Likes = likes.Length,
+            Comments = post.Comments?.Count() ?? 0,
+            Views = post.Views?.Count() ?? 0
+        };
+        
         var enrichedPost = new EnrichedPost
         {
             Id = id,
@@ -68,7 +87,9 @@ public static class PostDtoConverter
             Text = post.Description,
             Medias = post.Medias,
             Hashtags = post.Hashtags,
-            CreationDate = post.CreationDate
+            CreationDate = post.CreationDate,
+            Metadata = metadata,
+            Liked = likedByCurrentUser
         };
 
         return enrichedPost;

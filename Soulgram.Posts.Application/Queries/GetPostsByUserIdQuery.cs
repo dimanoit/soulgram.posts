@@ -11,49 +11,48 @@ using Soulgram.Posts.Domain;
 
 namespace Soulgram.Posts.Application.Queries;
 
-public class GetPostsByUserIdQuery : MediatR.IRequest<PostsByIdResponse>
+public record GetPostsByUserIdQuery(PostsByUserIdRequest Request) : MediatR.IRequest<PostsByIdResponse>;
+
+internal class GetPostsByUserIdQueryHandler : IRequestHandler<GetPostsByUserIdQuery, PostsByIdResponse>
 {
-    public GetPostsByUserIdQuery(PostsByUserIdRequest request)
+    private readonly IElasticClient _client;
+
+    public GetPostsByUserIdQueryHandler(IElasticClient client)
     {
-        Request = request;
+        _client = client;
     }
 
-    public PostsByUserIdRequest Request { get; }
-
-
-    internal class Handler : IRequestHandler<GetPostsByUserIdQuery, PostsByIdResponse>
+    public async Task<PostsByIdResponse> Handle(GetPostsByUserIdQuery request, CancellationToken cancellationToken)
     {
-        private readonly IElasticClient _client;
+        // TODO make projection on server https://stackoverflow.com/questions/61320740/will-nest-project-in-elasticsearch-or-in-the-client
+        Func<SearchDescriptor<Post>, ISearchRequest> query = searchDescriptor => searchDescriptor
+            .Query(SearchQuerySelector(request))
+            .Sort(sd => sd.Descending(p => p.CreationDate))
+            .From(request.Request.Skip)
+            .Size(request.Request.Take);
 
-        public Handler(IElasticClient client)
+        var searchResult = await _client.SearchAsync(query, cancellationToken);
+        var hits = searchResult.Hits;
+        if (hits == null)
         {
-            _client = client;
+            return null;
         }
 
-        public async Task<PostsByIdResponse> Handle(GetPostsByUserIdQuery request, CancellationToken cancellationToken)
+        var response = new PostsByIdResponse
         {
-            var searchResult = await _client.SearchAsync<Post>(x => x
-                .Query(SearchQuerySelector(request))
-                .Sort(sd => sd.Descending(p => p.CreationDate)), cancellationToken);
-            var hits = searchResult.Hits;
-            if (hits == null) return null;
+            Data = hits.Select(h => h.ToEnrichedPost(request.Request.CurrentUserId)),
+            TotalCount = (int) searchResult.Total
+        };
 
-            var response = new PostsByIdResponse
-            {
-                Data = hits.Select(h => h.ToEnrichedPost()),
-                TotalCount = (int)searchResult.Total
-            };
+        return response;
+    }
 
-            return response;
-        }
-
-        private static Func<QueryContainerDescriptor<Post>, QueryContainer> SearchQuerySelector(
-            GetPostsByUserIdQuery request)
-        {
-            return q =>
-                q.Term(p => p.UserId, request.Request.UserId)
-                &&
-                q.Term(p => p.Type, DocumentType.Post.ToString());
-        }
+    private static Func<QueryContainerDescriptor<Post>, QueryContainer> SearchQuerySelector(
+        GetPostsByUserIdQuery request)
+    {
+        return q =>
+            q.Term(p => p.UserId, request.Request.UserId)
+            &&
+            q.Term(p => p.Type, DocumentType.Post.ToString());
     }
 }

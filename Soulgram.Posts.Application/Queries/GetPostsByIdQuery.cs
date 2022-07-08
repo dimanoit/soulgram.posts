@@ -34,7 +34,7 @@ public class GetPostsByIdQuery : MediatR.IRequest<EnrichedPost>
             var response = await _client.GetAsync<Post>(request.Request.Id, ct: cancellationToken);
             if (!response.IsValid) throw new Exception("Bla bla bla", response.OriginalException);
 
-            return !response.Found ? null : response.ToEnrichedPost();
+            return !response.Found ? null : response.ToEnrichedPost(request.Request.CurrentUserId);
         }
     }
 }
