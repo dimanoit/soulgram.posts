@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
-using Microsoft.IdentityModel.Tokens;
 using Soulgram.Posts.Api.Filters;
 using Soulgram.Posts.Application;
 using Soulgram.Posts.Infrastructure;
@@ -27,18 +26,18 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         //TODO get all values from config, and policy for token validation
-
-        services.AddAuthentication("Bearer")
-            .AddJwtBearer("Bearer", config =>
-            {
-                config.Authority = "https://localhost:5002/";
-                config.RequireHttpsMetadata = false;
-                config.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateAudience = false
-                };
-            });
         //TODO add authorization by scope
+        //services.AddAuthentication("Bearer")
+        //    .AddJwtBearer("Bearer", config =>
+        //    {
+        //        config.Authority = "https://localhost:5002/";
+        //        config.RequireHttpsMetadata = false;
+        //        config.TokenValidationParameters = new TokenValidationParameters
+        //        {
+        //            ValidateAudience = false
+        //        };
+        //    });
+
         services
             .AddControllers(o =>
             {
@@ -72,8 +71,8 @@ public class Startup
 
         app.UseRouting();
         app.UseCors("MyPolicy");
-        app.UseAuthentication();
-        app.UseAuthorization();
+        //app.UseAuthentication();
+        //app.UseAuthorization();
 
         app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
     }
