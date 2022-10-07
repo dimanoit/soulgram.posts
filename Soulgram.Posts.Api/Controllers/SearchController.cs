@@ -1,7 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Soulgram.Posts.Application.Models.Post;
 using Soulgram.Posts.Application.Models.Requests;
@@ -25,7 +24,7 @@ public class SearchController : ControllerBase
     public async Task<PostsByIdResponse> GetAsync(PostsByUserIdRequest request, CancellationToken token)
     {
         return await _mediator.Send(
-            new GetPostsByUserIdQuery(request),
+            new GetPostsByUsersIdQuery(request),
             token);
     }
 
