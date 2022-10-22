@@ -7,12 +7,12 @@ namespace Soulgram.Posts.Application.Commands.Comment;
 
 public class EditCommentCommand : IRequest
 {
-    public EditCommentCommand(CommentPublicationRequest request)
+    public EditCommentCommand(CommentEditRequest request)
     {
         Request = request;
     }
 
-    public CommentPublicationRequest Request { get; }
+    public CommentEditRequest Request { get; }
 
 
     internal class Handler : IRequestHandler<EditCommentCommand>

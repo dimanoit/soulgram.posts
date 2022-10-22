@@ -6,6 +6,7 @@ namespace Soulgram.Posts.Application.Validators;
 
 internal class CommentPublicationRequestValidator : AbstractValidator<CommentPublicationRequest>
 {
+    // TODO add validator for EditRequest
     public CommentPublicationRequestValidator()
     {
         RuleFor(e => e.UserId)
@@ -20,9 +21,5 @@ internal class CommentPublicationRequestValidator : AbstractValidator<CommentPub
         RuleFor(e => e.Text)
             .Must(arg => arg.Length < 200)
             .WithMessage(arg => $"{nameof(arg.Text)} should be less that 200 symbols");
-
-        RuleFor(e => e.Time)
-            .Must(arg => arg.Equals(new DateTime()))
-            .WithMessage(arg => $"{nameof(arg.Time)} should be not default");
     }
 }

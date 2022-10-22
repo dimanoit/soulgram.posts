@@ -25,7 +25,7 @@ public class CommentsController : ControllerBase
     }
 
     [HttpPut]
-    public async Task EditComment(CommentPublicationRequest request, CancellationToken cancellationToken)
+    public async Task EditComment(CommentEditRequest request, CancellationToken cancellationToken)
     {
         await _mediator.Send(new EditCommentCommand(request), cancellationToken);
     }
