@@ -21,6 +21,7 @@ public static class ServiceInjector
         CreateIndexIfNoExist(elasticOption);
 
         serviceCollection.AddSingleton<IElasticClient>(_ => GetElasticClient(elasticOption));
+        serviceCollection.AddScoped<IElasticClientDecorator, ElasticClientDecorator>();
     }
 
     private static void CreateIndexIfNoExist(ElasticOption elasticOption)

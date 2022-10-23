@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Soulgram.Posts.Domain;
 
 namespace Soulgram.Posts.Application.Models.Post;
 

@@ -24,15 +24,9 @@ public class CommentsController : ControllerBase
         await _mediator.Send(new AddCommentCommand(request), cancellationToken);
     }
 
-    [HttpPut]
-    public async Task EditComment(CommentEditRequest request, CancellationToken cancellationToken)
+    [HttpDelete("{commentId}/posts/{postId}")]
+    public async Task DeleteComment(string commentId, string postId, CancellationToken cancellationToken)
     {
-        await _mediator.Send(new EditCommentCommand(request), cancellationToken);
-    }
-
-    [HttpDelete]
-    public async Task DeleteComment(string commentId, CancellationToken cancellationToken)
-    {
-        await _mediator.Send(new DeleteCommentCommand(commentId), cancellationToken);
+        await _mediator.Send(new DeleteCommentCommand(postId, commentId), cancellationToken);
     }
 }

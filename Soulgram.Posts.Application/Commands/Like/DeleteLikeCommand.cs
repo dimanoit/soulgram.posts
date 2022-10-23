@@ -1,9 +1,7 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Nest;
-using IRequest = MediatR.IRequest;
+using Soulgram.Posts.Persistence;
 
 namespace Soulgram.Posts.Application.Commands.Like;
 
@@ -11,33 +9,18 @@ public record DeleteLikeCommand(string UserId, string PostId) : IRequest;
 
 internal class DeleteLikeCommandHandler : IRequestHandler<DeleteLikeCommand>
 {
-    private readonly IElasticClient _elasticClient;
-    public DeleteLikeCommandHandler(IElasticClient elasticClient)
+    private readonly IElasticClientDecorator _elasticClientDecorator;
+
+    public DeleteLikeCommandHandler(IElasticClientDecorator elasticClientDecorator)
     {
-        _elasticClient = elasticClient;
+        _elasticClientDecorator = elasticClientDecorator;
     }
 
     public async Task<Unit> Handle(DeleteLikeCommand request, CancellationToken cancellationToken)
     {
-        var deletionScript = @"for(int i = ctx._source.likes.length - 1; i >= 0; i--) {
-                    if(ctx._source.likes[i].user_id == params.userId) {
-                        ctx._source.likes.remove(i);
-                    }
-                }";
-        
-        var updateResult = await _elasticClient.UpdateAsync<Domain.Post>(
-            request.PostId,
-            u => u
-                .Script(s => s
-                .Source(deletionScript)
-                .Params(parameters => parameters.Add("userId", request.UserId))),
-            cancellationToken);
+        await _elasticClientDecorator.DeleteNestedCollectionItem(request.PostId,
+            request.UserId, NestedPostCollection.Likes, cancellationToken);
 
-        if (updateResult.IsValid)
-        {
-            return Unit.Value;
-        }
-
-        throw new NotImplementedException();
+        return Unit.Value;
     }
 }

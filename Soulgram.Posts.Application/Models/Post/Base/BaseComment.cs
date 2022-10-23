@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Soulgram.Posts.Application.Models.Post.Base;
+﻿namespace Soulgram.Posts.Application.Models.Post.Base;
 
 public record BaseComment
 {

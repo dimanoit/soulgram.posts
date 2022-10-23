@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Soulgram.Posts.Application.Commands.Like;
-using System.Threading;
-using System.Threading.Tasks;
+using Soulgram.Posts.Application.Models.Requests;
 
 namespace Soulgram.Posts.Api.Controllers;
 
@@ -33,5 +34,22 @@ public class LikesController : ControllerBase
         CancellationToken cancellationToken)
     {
         await _mediator.Send(new DeleteLikeCommand(userId, postId), cancellationToken);
+    }
+
+    [HttpPut("comments")]
+    public async Task AddLikeToComment(
+        [FromBody] LikeCommentRequest request,
+        CancellationToken cancellationToken)
+    {
+        await _mediator.Send(new AddLikeToCommentCommand(request), cancellationToken);
+    }
+
+
+    [HttpDelete("comments")]
+    public async Task DeleteLikeFromComment(
+        [FromBody] LikeCommentRequest request,
+        CancellationToken cancellationToken)
+    {
+        await _mediator.Send(new DeleteLikeFromCommand(request), cancellationToken);
     }
 }

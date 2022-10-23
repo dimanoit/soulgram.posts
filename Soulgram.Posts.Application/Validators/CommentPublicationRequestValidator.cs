@@ -1,5 +1,4 @@
-﻿using System;
-using FluentValidation;
+﻿using FluentValidation;
 using Soulgram.Posts.Application.Models.Requests;
 
 namespace Soulgram.Posts.Application.Validators;

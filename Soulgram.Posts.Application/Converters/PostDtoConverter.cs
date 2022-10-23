@@ -72,14 +72,14 @@ public static class PostDtoConverter
         var likes = post.Likes?.ToArray() ?? Array.Empty<UserInteraction>();
 
         var likedByCurrentUser = likes.Any(l => l.UserId == currentUserId);
-        
+
         var metadata = new PostMetadata
         {
             Likes = likes.Length,
             Comments = post.Comments?.Count() ?? 0,
             Views = post.Views?.Count() ?? 0
         };
-        
+
         var enrichedPost = new EnrichedPost
         {
             Id = id,

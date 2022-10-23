@@ -2,4 +2,7 @@
 
 namespace Soulgram.Posts.Application.Models.Requests;
 
-public record CommentEditRequest : BaseComment;
+public record CommentEditRequest : BaseComment
+{
+    public string Id { get; init; }
+}

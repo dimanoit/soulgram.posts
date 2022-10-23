@@ -2,11 +2,10 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Nest;
 using Soulgram.Posts.Application.Models.Requests;
 using Soulgram.Posts.Application.Services;
 using Soulgram.Posts.Domain;
-using IRequest = MediatR.IRequest;
+using Soulgram.Posts.Persistence;
 
 namespace Soulgram.Posts.Application.Commands.Comment;
 
@@ -22,46 +21,41 @@ public class AddCommentCommand : IRequest
 
     internal class Handler : IRequestHandler<AddCommentCommand>
     {
-        private readonly IElasticClient _elasticClient;
         private readonly ICurrentDateProvider _dateProvider;
+        private readonly IElasticClientDecorator _elasticClientDecorator;
 
         public Handler(
             ICurrentDateProvider dateProvider,
-            IElasticClient elasticClient)
+            IElasticClientDecorator elasticClientDecorator)
         {
             _dateProvider = dateProvider;
-            _elasticClient = elasticClient;
+            _elasticClientDecorator = elasticClientDecorator;
         }
 
         public async Task<Unit> Handle(AddCommentCommand command, CancellationToken cancellationToken)
         {
             var request = command.Request;
-            
+
             // TODO move to convertor
             var comment = new Domain.Comment
             {
                 UserId = request.UserId,
                 Data = request.Text,
 
+                Id = Guid.NewGuid().ToString(),
                 State = PostState.Published,
                 Type = DocumentType.Comment,
                 CreationDate = _dateProvider.Now
             };
-            
-            // TODO create a wrapper for Elastic Client and refactor this duplication
-            var updateResult = await _elasticClient.UpdateAsync<Domain.Post>(
-                request.PostId,
-                u => u.Script(s => s
-                    .Source("ctx._source.comments.add(params.comment)")
-                    .Params(parameters => parameters.Add("comment", comment))),
-                cancellationToken);
 
-            if (updateResult.IsValid)
-            {
-                return Unit.Value;
-            }
+            await _elasticClientDecorator
+                .AddNestedCollectionItem(
+                    request.PostId,
+                    comment,
+                    NestedPostCollection.Comments,
+                    cancellationToken);
 
-            throw new NotImplementedException();
+            return Unit.Value;
         }
     }
 }
